@@ -45,12 +45,12 @@ export default function HeroSection() {
       // Main headline timeline
       const tl = gsap.timeline({ delay: 0.6 });
 
-      // Clean fade-up reveal of the headline
+      // Clean fade-up reveal of the headline (slow, graceful)
       tl.to(headline, {
         opacity: 1,
         y: 0,
-        duration: 0.9,
-        ease: "power3.out",
+        duration: 1.8,
+        ease: "power2.out",
       });
 
       // SplitText stagger on sub-line
