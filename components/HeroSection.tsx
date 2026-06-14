@@ -3,12 +3,11 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import ScrambleTextPlugin from "gsap/ScrambleTextPlugin";
 import SplitText from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import WaitlistForm from "./WaitlistForm";
 
-gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin, SplitText);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -30,7 +29,7 @@ export default function HeroSection() {
       if (!headline || !subline) return;
 
       // Set initial states so elements are hidden before their entrance
-      gsap.set(headline, { opacity: 0 });
+      gsap.set(headline, { opacity: 0, y: 28 });
       gsap.set(ctaRef.current, { opacity: 0, y: 24 });
       gsap.set(pillRef.current, { opacity: 0, y: -16 });
 
@@ -46,17 +45,12 @@ export default function HeroSection() {
       // Main headline timeline
       const tl = gsap.timeline({ delay: 0.6 });
 
-      // Fade in the headline, then scramble-reveal the text
-      tl.to(headline, { opacity: 1, duration: 0.1 }).to(headline, {
-        duration: 1.4,
-        // @ts-ignore – scrambleText is added to TweenVars by ScrambleTextPlugin
-        scrambleText: {
-          text: "¿Pa' dónde vamos?",
-          chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz¿?!",
-          revealDelay: 0.3,
-          speed: 0.5,
-        },
-        ease: "none",
+      // Clean fade-up reveal of the headline
+      tl.to(headline, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: "power3.out",
       });
 
       // SplitText stagger on sub-line
@@ -151,7 +145,7 @@ export default function HeroSection() {
           </span>
         </div>
 
-        {/* Headline — ScrambleText fills this via GSAP */}
+        {/* Headline — clean fade-up reveal via GSAP */}
         <h1
           ref={headlineRef}
           className="text-6xl md:text-8xl lg:text-9xl font-light text-white leading-[0.9] tracking-tight mb-6"
