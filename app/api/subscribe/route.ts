@@ -7,9 +7,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Email is required" }, { status: 400 });
   }
 
-  const apiKey = process.env.MAILCHIMP_API_KEY;
-  const audienceId = process.env.MAILCHIMP_AUDIENCE_ID;
-  const dc = process.env.MAILCHIMP_DC;
+  const apiKey = process.env.MAILCHIMP_API_KEY ?? process.env.mailchimp_api_key;
+  const audienceId = process.env.MAILCHIMP_AUDIENCE_ID ?? process.env.mailchimp_audience_id;
+  const dc = process.env.MAILCHIMP_DC ?? process.env.mailchimp_dc;
 
   if (!apiKey || !audienceId || !dc) {
     return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 });
