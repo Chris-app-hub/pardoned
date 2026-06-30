@@ -9,7 +9,8 @@ export async function POST(req: NextRequest) {
 
   const apiKey = process.env.MAILCHIMP_API_KEY ?? process.env.mailchimp_api_key;
   const audienceId = process.env.MAILCHIMP_AUDIENCE_ID ?? process.env.mailchimp_audience_id;
-  const dc = process.env.MAILCHIMP_DC ?? process.env.mailchimp_dc;
+  // Extract datacenter from the API key suffix (e.g. "abc123-us11" → "us11")
+  const dc = apiKey?.split("-").pop();
 
   if (!apiKey || !audienceId || !dc) {
     return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 });
